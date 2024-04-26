@@ -1,0 +1,392 @@
+
+
+1.Write an SQL query to print details of the Workers who have joined in Feb’2014.
+
+
+mysql> alter table emp_copy add Email varchar(25);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc emp_copy;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| empno    | int         | NO   |     | NULL    |       |
+| ename    | varchar(10) | YES  |     | NULL    |       |
+| job      | varchar(9)  | YES  |     | NULL    |       |
+| mgr      | int         | YES  |     | NULL    |       |
+| hiredate | date        | YES  |     | NULL    |       |
+| sal      | int         | YES  |     | NULL    |       |
+| comm     | int         | YES  |     | NULL    |       |
+| deptno   | int         | YES  |     | NULL    |       |
+| Email    | varchar(25) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+9 rows in set (0.01 sec)
+
+mysql> insert into emp_copy (Email) Values ('smith@gmail.com');
+ERROR 1364 (HY000): Field 'empno' doesn't have a default value
+mysql> insert into emp_copy (Email) Values ('smith@gmail.com') where empno=7369;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where empno=7369' at line 1
+mysql> insert into emp_copy (Email) Values ('smith@gmail.com');
+ERROR 1364 (HY000): Field 'empno' doesn't have a default value
+mysql> insert into emp_copy (Email) Values ('smith@gmail.com');
+ERROR 1364 (HY000): Field 'empno' doesn't have a default value
+mysql>
+mysql> select * from emp_copy;
++-------+--------+-----------+------+------------+------+------+--------+-------+
+| empno | ename  | job       | mgr  | hiredate   | sal  | comm | deptno | Email |
++-------+--------+-----------+------+------------+------+------+--------+-------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800 | NULL |     20 | NULL  |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600 |  300 |     30 | NULL  |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250 |  500 |     30 | NULL  |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975 | NULL |     20 | NULL  |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-22 | 1250 | 1400 |     30 | NULL  |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850 | NULL |     30 | NULL  |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450 | NULL |     10 | NULL  |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1987-09-23 | 3000 | NULL |     20 | NULL  |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-19 | 5000 | NULL |     10 | NULL  |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500 |    0 |     30 | NULL  |
+|  7876 | ADAMS  | CLERK     | 7788 | 1987-08-24 | 1100 | NULL |     20 | NULL  |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950 | NULL |     30 | NULL  |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000 | NULL |     20 | NULL  |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300 | NULL |     10 | NULL  |
++-------+--------+-----------+------+------------+------+------+--------+-------+
+14 rows in set (0.00 sec)
+
+mysql> insert into emp_copy(Email) values('smith@example.com') where ename.emp_copy-''smith;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where ename.emp_copy-''smith' at line 1
+mysql> update emp_copy set Email = 'smithhh@gmail.com' where empno=7369;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp_copy;
++-------+--------+-----------+------+------------+------+------+--------+-------------------+
+| empno | ename  | job       | mgr  | hiredate   | sal  | comm | deptno | Email             |
++-------+--------+-----------+------+------------+------+------+--------+-------------------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800 | NULL |     20 | smithhh@gmail.com |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600 |  300 |     30 | NULL              |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250 |  500 |     30 | NULL              |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975 | NULL |     20 | NULL              |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-22 | 1250 | 1400 |     30 | NULL              |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850 | NULL |     30 | NULL              |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450 | NULL |     10 | NULL              |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1987-09-23 | 3000 | NULL |     20 | NULL              |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-19 | 5000 | NULL |     10 | NULL              |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500 |    0 |     30 | NULL              |
+|  7876 | ADAMS  | CLERK     | 7788 | 1987-08-24 | 1100 | NULL |     20 | NULL              |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950 | NULL |     30 | NULL              |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000 | NULL |     20 | NULL              |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300 | NULL |     10 | NULL              |
++-------+--------+-----------+------+------------+------+------+--------+-------------------+
+14 rows in set (0.00 sec)
+
+mysql> update emp_copy set Email = 'allen@gmail.com' where ename='ALLEN';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp_copy;
++-------+--------+-----------+------+------------+------+------+--------+-------------------+
+| empno | ename  | job       | mgr  | hiredate   | sal  | comm | deptno | Email             |
++-------+--------+-----------+------+------------+------+------+--------+-------------------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800 | NULL |     20 | smithhh@gmail.com |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600 |  300 |     30 | allen@gmail.com   |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250 |  500 |     30 | NULL              |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975 | NULL |     20 | NULL              |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-22 | 1250 | 1400 |     30 | NULL              |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850 | NULL |     30 | NULL              |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450 | NULL |     10 | NULL              |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1987-09-23 | 3000 | NULL |     20 | NULL              |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-19 | 5000 | NULL |     10 | NULL              |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500 |    0 |     30 | NULL              |
+|  7876 | ADAMS  | CLERK     | 7788 | 1987-08-24 | 1100 | NULL |     20 | NULL              |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950 | NULL |     30 | NULL              |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000 | NULL |     20 | NULL              |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300 | NULL |     10 | NULL              |
++-------+--------+-----------+------+------------+------+------+--------+-------------------+
+14 rows in set (0.00 sec)
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+------+------+--------+
+| empno | ename  | job       | mgr  | hiredate   | sal  | comm | deptno |
++-------+--------+-----------+------+------------+------+------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800 | NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600 |  300 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250 |  500 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975 | NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-22 | 1250 | 1400 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850 | NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450 | NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1987-09-23 | 3000 | NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-19 | 5000 | NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500 |    0 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1987-08-24 | 1100 | NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950 | NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000 | NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300 | NULL |     10 |
++-------+--------+-----------+------+------------+------+------+--------+
+14 rows in set (0.00 sec)
+
+mysql> select ename from emp where hiredate like '1981-02';
+Empty set (0.00 sec)
+
+mysql> select * from emp where month(Join_Date)=2 and Year(Join_Dste)=1981;
+ERROR 1054 (42S22): Unknown column 'Join_Date' in 'where clause'
+mysql> select * from emp where month(hiredate)=2 and Year(hiredate)=1981;
++-------+-------+----------+------+------------+------+------+--------+
+| empno | ename | job      | mgr  | hiredate   | sal  | comm | deptno |
++-------+-------+----------+------+------------+------+------+--------+
+|  7499 | ALLEN | SALESMAN | 7698 | 1981-02-20 | 1600 |  300 |     30 |
+|  7521 | WARD  | SALESMAN | 7698 | 1981-02-22 | 1250 |  500 |     30 |
++-------+-------+----------+------+------------+------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql> select ename,job, count(*) as duplicate_record from emp group by ename,job having count(*)>1;
+Empty set (0.00 sec)
+
+mysql> select A.ename, A.job, count(*) as duplicate_record from emp A inner join customers c on A.ename=c.ename group by A.ename, c.job having count(*)>1;
+ERROR 1146 (42S02): Table 'b99_8pm.customers' doesn't exist
+mysql> select * from dept;
++--------+------------+----------+
+| deptno | dname      | loc      |
++--------+------------+----------+
+|     10 | ACCOUNTING | NEW YORK |
+|     20 | RESEARCH   | DALLAS   |
+|     30 | SALES      | CHICAGO  |
+|     40 | OPERATIONS | BOSTON   |
++--------+------------+----------+
+4 rows in set (0.00 sec)
+
+Q-2. Write an SQL query to fetch duplicate records having matching data in some fields of a table.
+
+
+mysql> select * from mp;
+ERROR 1146 (42S02): Table 'b99_8pm.mp' doesn't exist
+mysql> select * from emp;
++-------+--------+-----------+------+------------+------+------+--------+
+| empno | ename  | job       | mgr  | hiredate   | sal  | comm | deptno |
++-------+--------+-----------+------+------------+------+------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800 | NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600 |  300 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250 |  500 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975 | NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-22 | 1250 | 1400 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850 | NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450 | NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1987-09-23 | 3000 | NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-19 | 5000 | NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500 |    0 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1987-08-24 | 1100 | NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950 | NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000 | NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300 | NULL |     10 |
++-------+--------+-----------+------+------------+------+------+--------+
+14 rows in set (0.00 sec)
+
+mysql> select emp.ename,emp.sal,emp.deptno EDeptno, dept.deptno DDeptno, dept.loc from emp,dept;
++--------+------+---------+---------+----------+
+| ename  | sal  | EDeptno | DDeptno | loc      |
++--------+------+---------+---------+----------+
+| SMITH  |  800 |      20 |      40 | BOSTON   |
+| SMITH  |  800 |      20 |      30 | CHICAGO  |
+| SMITH  |  800 |      20 |      20 | DALLAS   |
+| SMITH  |  800 |      20 |      10 | NEW YORK |
+| ALLEN  | 1600 |      30 |      40 | BOSTON   |
+| ALLEN  | 1600 |      30 |      30 | CHICAGO  |
+| ALLEN  | 1600 |      30 |      20 | DALLAS   |
+| ALLEN  | 1600 |      30 |      10 | NEW YORK |
+| WARD   | 1250 |      30 |      40 | BOSTON   |
+| WARD   | 1250 |      30 |      30 | CHICAGO  |
+| WARD   | 1250 |      30 |      20 | DALLAS   |
+| WARD   | 1250 |      30 |      10 | NEW YORK |
+| JONES  | 2975 |      20 |      40 | BOSTON   |
+| JONES  | 2975 |      20 |      30 | CHICAGO  |
+| JONES  | 2975 |      20 |      20 | DALLAS   |
+| JONES  | 2975 |      20 |      10 | NEW YORK |
+| MARTIN | 1250 |      30 |      40 | BOSTON   |
+| MARTIN | 1250 |      30 |      30 | CHICAGO  |
+| MARTIN | 1250 |      30 |      20 | DALLAS   |
+| MARTIN | 1250 |      30 |      10 | NEW YORK |
+| BLAKE  | 2850 |      30 |      40 | BOSTON   |
+| BLAKE  | 2850 |      30 |      30 | CHICAGO  |
+| BLAKE  | 2850 |      30 |      20 | DALLAS   |
+| BLAKE  | 2850 |      30 |      10 | NEW YORK |
+| CLARK  | 2450 |      10 |      40 | BOSTON   |
+| CLARK  | 2450 |      10 |      30 | CHICAGO  |
+| CLARK  | 2450 |      10 |      20 | DALLAS   |
+| CLARK  | 2450 |      10 |      10 | NEW YORK |
+| SCOTT  | 3000 |      20 |      40 | BOSTON   |
+| SCOTT  | 3000 |      20 |      30 | CHICAGO  |
+| SCOTT  | 3000 |      20 |      20 | DALLAS   |
+| SCOTT  | 3000 |      20 |      10 | NEW YORK |
+| KING   | 5000 |      10 |      40 | BOSTON   |
+| KING   | 5000 |      10 |      30 | CHICAGO  |
+| KING   | 5000 |      10 |      20 | DALLAS   |
+| KING   | 5000 |      10 |      10 | NEW YORK |
+| TURNER | 1500 |      30 |      40 | BOSTON   |
+| TURNER | 1500 |      30 |      30 | CHICAGO  |
+| TURNER | 1500 |      30 |      20 | DALLAS   |
+| TURNER | 1500 |      30 |      10 | NEW YORK |
+| ADAMS  | 1100 |      20 |      40 | BOSTON   |
+| ADAMS  | 1100 |      20 |      30 | CHICAGO  |
+| ADAMS  | 1100 |      20 |      20 | DALLAS   |
+| ADAMS  | 1100 |      20 |      10 | NEW YORK |
+| JAMES  |  950 |      30 |      40 | BOSTON   |
+| JAMES  |  950 |      30 |      30 | CHICAGO  |
+| JAMES  |  950 |      30 |      20 | DALLAS   |
+| JAMES  |  950 |      30 |      10 | NEW YORK |
+| FORD   | 3000 |      20 |      40 | BOSTON   |
+| FORD   | 3000 |      20 |      30 | CHICAGO  |
+| FORD   | 3000 |      20 |      20 | DALLAS   |
+| FORD   | 3000 |      20 |      10 | NEW YORK |
+| MILLER | 1300 |      10 |      40 | BOSTON   |
+| MILLER | 1300 |      10 |      30 | CHICAGO  |
+| MILLER | 1300 |      10 |      20 | DALLAS   |
+| MILLER | 1300 |      10 |      10 | NEW YORK |
++--------+------+---------+---------+----------+
+56 rows in set (0.00 sec)
+
+mysql> select * from emp,dept;
++-------+--------+-----------+------+------------+------+------+--------+--------+------------+----------+
+| empno | ename  | job       | mgr  | hiredate   | sal  | comm | deptno | deptno | dname      | loc      |
++-------+--------+-----------+------+------------+------+------+--------+--------+------------+----------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800 | NULL |     20 |     40 | OPERATIONS | BOSTON   |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800 | NULL |     20 |     30 | SALES      | CHICAGO  |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800 | NULL |     20 |     20 | RESEARCH   | DALLAS   |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800 | NULL |     20 |     10 | ACCOUNTING | NEW YORK |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600 |  300 |     30 |     40 | OPERATIONS | BOSTON   |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600 |  300 |     30 |     30 | SALES      | CHICAGO  |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600 |  300 |     30 |     20 | RESEARCH   | DALLAS   |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600 |  300 |     30 |     10 | ACCOUNTING | NEW YORK |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250 |  500 |     30 |     40 | OPERATIONS | BOSTON   |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250 |  500 |     30 |     30 | SALES      | CHICAGO  |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250 |  500 |     30 |     20 | RESEARCH   | DALLAS   |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250 |  500 |     30 |     10 | ACCOUNTING | NEW YORK |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975 | NULL |     20 |     40 | OPERATIONS | BOSTON   |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975 | NULL |     20 |     30 | SALES      | CHICAGO  |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975 | NULL |     20 |     20 | RESEARCH   | DALLAS   |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975 | NULL |     20 |     10 | ACCOUNTING | NEW YORK |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-22 | 1250 | 1400 |     30 |     40 | OPERATIONS | BOSTON   |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-22 | 1250 | 1400 |     30 |     30 | SALES      | CHICAGO  |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-22 | 1250 | 1400 |     30 |     20 | RESEARCH   | DALLAS   |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-22 | 1250 | 1400 |     30 |     10 | ACCOUNTING | NEW YORK |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850 | NULL |     30 |     40 | OPERATIONS | BOSTON   |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850 | NULL |     30 |     30 | SALES      | CHICAGO  |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850 | NULL |     30 |     20 | RESEARCH   | DALLAS   |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850 | NULL |     30 |     10 | ACCOUNTING | NEW YORK |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450 | NULL |     10 |     40 | OPERATIONS | BOSTON   |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450 | NULL |     10 |     30 | SALES      | CHICAGO  |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450 | NULL |     10 |     20 | RESEARCH   | DALLAS   |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450 | NULL |     10 |     10 | ACCOUNTING | NEW YORK |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1987-09-23 | 3000 | NULL |     20 |     40 | OPERATIONS | BOSTON   |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1987-09-23 | 3000 | NULL |     20 |     30 | SALES      | CHICAGO  |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1987-09-23 | 3000 | NULL |     20 |     20 | RESEARCH   | DALLAS   |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1987-09-23 | 3000 | NULL |     20 |     10 | ACCOUNTING | NEW YORK |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-19 | 5000 | NULL |     10 |     40 | OPERATIONS | BOSTON   |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-19 | 5000 | NULL |     10 |     30 | SALES      | CHICAGO  |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-19 | 5000 | NULL |     10 |     20 | RESEARCH   | DALLAS   |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-19 | 5000 | NULL |     10 |     10 | ACCOUNTING | NEW YORK |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500 |    0 |     30 |     40 | OPERATIONS | BOSTON   |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500 |    0 |     30 |     30 | SALES      | CHICAGO  |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500 |    0 |     30 |     20 | RESEARCH   | DALLAS   |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500 |    0 |     30 |     10 | ACCOUNTING | NEW YORK |
+|  7876 | ADAMS  | CLERK     | 7788 | 1987-08-24 | 1100 | NULL |     20 |     40 | OPERATIONS | BOSTON   |
+|  7876 | ADAMS  | CLERK     | 7788 | 1987-08-24 | 1100 | NULL |     20 |     30 | SALES      | CHICAGO  |
+|  7876 | ADAMS  | CLERK     | 7788 | 1987-08-24 | 1100 | NULL |     20 |     20 | RESEARCH   | DALLAS   |
+|  7876 | ADAMS  | CLERK     | 7788 | 1987-08-24 | 1100 | NULL |     20 |     10 | ACCOUNTING | NEW YORK |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950 | NULL |     30 |     40 | OPERATIONS | BOSTON   |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950 | NULL |     30 |     30 | SALES      | CHICAGO  |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950 | NULL |     30 |     20 | RESEARCH   | DALLAS   |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950 | NULL |     30 |     10 | ACCOUNTING | NEW YORK |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000 | NULL |     20 |     40 | OPERATIONS | BOSTON   |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000 | NULL |     20 |     30 | SALES      | CHICAGO  |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000 | NULL |     20 |     20 | RESEARCH   | DALLAS   |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000 | NULL |     20 |     10 | ACCOUNTING | NEW YORK |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300 | NULL |     10 |     40 | OPERATIONS | BOSTON   |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300 | NULL |     10 |     30 | SALES      | CHICAGO  |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300 | NULL |     10 |     20 | RESEARCH   | DALLAS   |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300 | NULL |     10 |     10 | ACCOUNTING | NEW YORK |
++-------+--------+-----------+------+------------+------+------+--------+--------+------------+----------+
+56 rows in set (0.00 sec)
+
+mysql> select emp.ename,emp.job,emp.deptno EDeptno, dept.deptno DDeptno, dept.loc from emp,dept;
++--------+-----------+---------+---------+----------+
+| ename  | job       | EDeptno | DDeptno | loc      |
++--------+-----------+---------+---------+----------+
+| SMITH  | CLERK     |      20 |      40 | BOSTON   |
+| SMITH  | CLERK     |      20 |      30 | CHICAGO  |
+| SMITH  | CLERK     |      20 |      20 | DALLAS   |
+| SMITH  | CLERK     |      20 |      10 | NEW YORK |
+| ALLEN  | SALESMAN  |      30 |      40 | BOSTON   |
+| ALLEN  | SALESMAN  |      30 |      30 | CHICAGO  |
+| ALLEN  | SALESMAN  |      30 |      20 | DALLAS   |
+| ALLEN  | SALESMAN  |      30 |      10 | NEW YORK |
+| WARD   | SALESMAN  |      30 |      40 | BOSTON   |
+| WARD   | SALESMAN  |      30 |      30 | CHICAGO  |
+| WARD   | SALESMAN  |      30 |      20 | DALLAS   |
+| WARD   | SALESMAN  |      30 |      10 | NEW YORK |
+| JONES  | MANAGER   |      20 |      40 | BOSTON   |
+| JONES  | MANAGER   |      20 |      30 | CHICAGO  |
+| JONES  | MANAGER   |      20 |      20 | DALLAS   |
+| JONES  | MANAGER   |      20 |      10 | NEW YORK |
+| MARTIN | SALESMAN  |      30 |      40 | BOSTON   |
+| MARTIN | SALESMAN  |      30 |      30 | CHICAGO  |
+| MARTIN | SALESMAN  |      30 |      20 | DALLAS   |
+| MARTIN | SALESMAN  |      30 |      10 | NEW YORK |
+| BLAKE  | MANAGER   |      30 |      40 | BOSTON   |
+| BLAKE  | MANAGER   |      30 |      30 | CHICAGO  |
+| BLAKE  | MANAGER   |      30 |      20 | DALLAS   |
+| BLAKE  | MANAGER   |      30 |      10 | NEW YORK |
+| CLARK  | MANAGER   |      10 |      40 | BOSTON   |
+| CLARK  | MANAGER   |      10 |      30 | CHICAGO  |
+| CLARK  | MANAGER   |      10 |      20 | DALLAS   |
+| CLARK  | MANAGER   |      10 |      10 | NEW YORK |
+| SCOTT  | ANALYST   |      20 |      40 | BOSTON   |
+| SCOTT  | ANALYST   |      20 |      30 | CHICAGO  |
+| SCOTT  | ANALYST   |      20 |      20 | DALLAS   |
+| SCOTT  | ANALYST   |      20 |      10 | NEW YORK |
+| KING   | PRESIDENT |      10 |      40 | BOSTON   |
+| KING   | PRESIDENT |      10 |      30 | CHICAGO  |
+| KING   | PRESIDENT |      10 |      20 | DALLAS   |
+| KING   | PRESIDENT |      10 |      10 | NEW YORK |
+| TURNER | SALESMAN  |      30 |      40 | BOSTON   |
+| TURNER | SALESMAN  |      30 |      30 | CHICAGO  |
+| TURNER | SALESMAN  |      30 |      20 | DALLAS   |
+| TURNER | SALESMAN  |      30 |      10 | NEW YORK |
+| ADAMS  | CLERK     |      20 |      40 | BOSTON   |
+| ADAMS  | CLERK     |      20 |      30 | CHICAGO  |
+| ADAMS  | CLERK     |      20 |      20 | DALLAS   |
+| ADAMS  | CLERK     |      20 |      10 | NEW YORK |
+| JAMES  | CLERK     |      30 |      40 | BOSTON   |
+| JAMES  | CLERK     |      30 |      30 | CHICAGO  |
+| JAMES  | CLERK     |      30 |      20 | DALLAS   |
+| JAMES  | CLERK     |      30 |      10 | NEW YORK |
+| FORD   | ANALYST   |      20 |      40 | BOSTON   |
+| FORD   | ANALYST   |      20 |      30 | CHICAGO  |
+| FORD   | ANALYST   |      20 |      20 | DALLAS   |
+| FORD   | ANALYST   |      20 |      10 | NEW YORK |
+| MILLER | CLERK     |      10 |      40 | BOSTON   |
+| MILLER | CLERK     |      10 |      30 | CHICAGO  |
+| MILLER | CLERK     |      10 |      20 | DALLAS   |
+| MILLER | CLERK     |      10 |      10 | NEW YORK |
++--------+-----------+---------+---------+----------+
+56 rows in set (0.00 sec)
+
+mysql> select e.name, e.job, count(*) as Duplicate_record from emp e inner joindept d on e.ename=d.ename group by e.ename, e.job having count(*)>1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'joindept d on e.ename=d.ename group by e.ename, e.job having count(*)>1' at line 1
+mysql> select e.name, e.job, count(*) as Duplicate_record from emp e inner join dept d on e.deptno=d.deptno group by e.ename, e.job having count(*)>1;
+ERROR 1054 (42S22): Unknown column 'e.name' in 'field list'
+mysql> select e.ename, e.job, count(*) as Duplicate_record from emp e inner join dept d on e.deptno=d.deptno group by e.ename, e.job having count(*)>1;
+Empty set (0.00 sec)
+
+mysql> select e.deptno, e.job, count(*) as Duplicate_record from emp e inner join dept d on e.deptno=d.deptno group by e.deptno, e.job having count(*)>1;
++--------+----------+------------------+
+| deptno | job      | Duplicate_record |
++--------+----------+------------------+
+|     20 | CLERK    |                2 |
+|     30 | SALESMAN |                4 |
+|     20 | ANALYST  |                2 |
++--------+----------+------------------+
+3 rows in set (0.00 sec)
+
+mysql> delete from emp where empno in (select empno from (select empno,))
