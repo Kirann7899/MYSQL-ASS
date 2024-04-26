@@ -1,0 +1,93 @@
+Q-1. Write an SQL query to print the FIRST_NAME from Worker table after removing white spaces from the right side.
+
+mysql> select ename,substr(ename,1,length(ename)-1) as New_Name from emp;
++--------+----------+
+| ename  | New_Name |
++--------+----------+
+| SMITH  | SMIT     |
+| ALLEN  | ALLE     |
+| WARD   | WAR      |
+| JONES  | JONE     |
+| MARTIN | MARTI    |
+| BLAKE  | BLAK     |
+| CLARK  | CLAR     |
+| SCOTT  | SCOT     |
+| KING   | KIN      |
+| TURNER | TURNE    |
+| ADAMS  | ADAM     |
+| JAMES  | JAME     |
+| FORD   | FOR      |
+| MILLER | MILLE    |
++--------+----------+
+14 rows in set (0.00 sec)
+
+Q-2. Write an SQL query that fetches the unique values of DEPARTMENT from Worker table and prints its length.
+
+mysql> select disting(job) as job,length(job) from emp;
+ERROR 1305 (42000): FUNCTION b99_8pm.disting does not exist
+mysql> select distinct(job) as job,length(job) from emp;
++-----------+-------------+
+| job       | length(job) |
++-----------+-------------+
+| CLERK     |           5 |
+| SALESMAN  |           8 |
+| MANAGER   |           7 |
+| ANALYST   |           7 |
+| PRESIDENT |           9 |
++-----------+-------------+
+5 rows in set (0.00 sec)
+
+Q-3. Write an SQL query to fetch nth max salaries from a table.
+
+mysql> select ename,sal from emp where sal>800;
++--------+------+
+| ename  | sal  |
++--------+------+
+| ALLEN  | 1600 |
+| WARD   | 1250 |
+| JONES  | 2975 |
+| MARTIN | 1250 |
+| BLAKE  | 2850 |
+| CLARK  | 2450 |
+| SCOTT  | 3000 |
+| KING   | 5000 |
+| TURNER | 1500 |
+| ADAMS  | 1100 |
+| JAMES  |  950 |
+| FORD   | 3000 |
+| MILLER | 1300 |
++--------+------+
+13 rows in set (0.00 sec)
+
+mysql> select max(sal) from emp order by sal desc;
++----------+
+| max(sal) |
++----------+
+|     5000 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select ename,max(sal) from emp order by sal desc;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'b99_8pm.emp.ename'; this is incompatible with sql_mode=only_full_group_by
+mysql> select ename,sal, smax(sal) from emp order by sal desc;
+ERROR 1305 (42000): FUNCTION b99_8pm.smax does not exist
+mysql> select ename,sal from emp order by sal desc;
++--------+------+
+| ename  | sal  |
++--------+------+
+| KING   | 5000 |
+| SCOTT  | 3000 |
+| FORD   | 3000 |
+| JONES  | 2975 |
+| BLAKE  | 2850 |
+| CLARK  | 2450 |
+| ALLEN  | 1600 |
+| TURNER | 1500 |
+| MILLER | 1300 |
+| WARD   | 1250 |
+| MARTIN | 1250 |
+| ADAMS  | 1100 |
+| JAMES  |  950 |
+| SMITH  |  800 |
++--------+------+
+14 rows in set (0.00 sec)
