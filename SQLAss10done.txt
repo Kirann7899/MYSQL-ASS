@@ -1,0 +1,166 @@
+Q-19. Write an SQL query to determine the 5th highest salary without using TOP or limit method.
+
+mysql> select *,rank() over(order by sal desc) as iRank from emp limit 1 offset 4;
++-------+-------+---------+------+------------+------+------+--------+-------+
+| empno | ename | job     | mgr  | hiredate   | sal  | comm | deptno | iRank |
++-------+-------+---------+------+------------+------+------+--------+-------+
+|  7698 | BLAKE | MANAGER | 7839 | 1981-05-01 | 2850 | NULL |     30 |     5 |
++-------+-------+---------+------+------------+------+------+--------+-------+
+1 row in set (0.00 sec)
+
+mysql> select *,rank() over(order by sal desc) as iRank from emp offset 4;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '4' at line 1
+mysql> select *,rank() over(order by sal desc) as iRank from emp limit 1 offset 4;
++-------+-------+---------+------+------------+------+------+--------+-------+
+| empno | ename | job     | mgr  | hiredate   | sal  | comm | deptno | iRank |
++-------+-------+---------+------+------------+------+------+--------+-------+
+|  7698 | BLAKE | MANAGER | 7839 | 1981-05-01 | 2850 | NULL |     30 |     5 |
++-------+-------+---------+------+------------+------+------+--------+-------+
+1 row in set (0.00 sec)
+
+mysql> select 8 from emp group by sal having count(*)>1;
++---+
+| 8 |
++---+
+| 8 |
+| 8 |
++---+
+2 rows in set (0.00 sec)
+
+mysql> select * from emp group by sal having count(*)>1;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'b99_8pm.emp.empno' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql>
+mysql> select *,sal from emp group by sal having count(*)>1;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'b99_8pm.emp.empno' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql>
+
+Q-20. Write an SQL query to fetch the list of employees with the same salary.
+
+mysql>
+mysql> select sal, group_concat(sal) as Emp_wWithsameSal from emp group by sal having count(*)>1;
++------+------------------+
+| sal  | Emp_wWithsameSal |
++------+------------------+
+| 1250 | 1250,1250        |
+| 3000 | 3000,3000        |
++------+------------------+
+2 rows in set (0.00 sec)
+
+mysql> select *,sal, group_concat(sal) as Emp_wWithsameSal from emp group by sal having count(*)>1;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'b99_8pm.emp.empno' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select *,sal group_concat(sal) as Emp_wWithsameSal from emp group by sal having count(*)>1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group_concat(sal) as Emp_wWithsameSal from emp group by sal having count(*)>1' at line 1
+mysql>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
